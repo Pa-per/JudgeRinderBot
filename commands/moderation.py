@@ -30,12 +30,22 @@ class Moderation(commands.Cog):
     async def kick(self, ctx, member: discord.Member = None, *, reason: str = None):
         """Kick a user from the server."""
         if member is None:
-            await ctx.reply("Please specify a user to kick.", mention_author=False)
+            return await ctx.reply("🗙 Please specify a user to kick.", mention_author=False)
         if reason is None:
             reason = "No reason provided."
         await member.kick(reason=reason)
         await ctx.reply(f"Kicked {member.mention}.\nReason: {reason}", mention_author=False, delete_after=5)
 
+    @commands.command(
+        name="mute",
+        description="Mutes a user.",
+        usage="<user> [time]"
+    )
+    @commands.guild_only()
+    @commands.has_permissions(manage_roles=True)
+    async def mute(self, ctx, member: discord.Member = None, time: str = None):
+        if member is None:
+            return await ctx.reply("🗙 Please specify a user to mute.", mention_author=False)
 
 async def setup(client: commands.Bot):
     await client.add_cog(Moderation(client))

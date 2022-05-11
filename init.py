@@ -12,7 +12,7 @@ with open("config.json", encoding="utf-8") as file:
     data = json.load(file)
     token = data["bot"]["token"]
 
-# initiate a discord bot class
+
 client = commands.Bot(command_prefix="-", intents=intents)
 
 

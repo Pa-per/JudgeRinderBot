@@ -57,19 +57,28 @@ async def check_level(id):
     await cursor.execute(f"SELECT level, xp, xp_to_next_level FROM profile WHERE id = {id}")
     result = await cursor.fetchone()
     if result:
-        Levelled = False
         if result[1] >= result[2]:
             new_level = result[0] + 1
             xp_to_next_level = int(result[1] * 1.1 ** (new_level - 1))
             await cursor.execute(f"UPDATE profile SET level = {new_level}, xp = 0, xp_to_next_level = {xp_to_next_level}, xp_needed = 0 WHERE id = {id}")
             await db.commit()
             await db.close()
-            Levelled = True
-            return Levelled
-        return Levelled
+            return True
+        return False
     else:
         await create_profile(id)
+        return False
 
+async def get_level(id):
+    db = await aiosqlite.connect("databases/users.sqlite")
+    cursor = await db.cursor()
+    await cursor.execute(f"SELECT level FROM profile WHERE id = {id}")
+    result = await cursor.fetchone()
+    if result:
+        await db.close()
+        return result[0]
+    else:
+        return 0
 
 async def add_exp(id, xp):
     db = await aiosqlite.connect("databases/users.sqlite")
@@ -79,12 +88,14 @@ async def add_exp(id, xp):
     if result:
         current_xp = result[1]
         xp_to_next_level = result[2]
-        xp_needed = result[3]
         new_total_xp = current_xp + xp
         new_needed_xp = xp_to_next_level - new_total_xp
         await cursor.execute(f"UPDATE profile SET xp = {new_total_xp}, xp_needed = {new_needed_xp} WHERE id = {id}")
         await db.commit()
         await db.close()
-        await check_level(id)
+        levelled = await check_level(id)
+        if levelled:
+            return True
+        return False
     else:
         await create_profile(id)

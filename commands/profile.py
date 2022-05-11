@@ -2,8 +2,8 @@ import discord
 from discord.ext import commands
 from utils.checks import is_cmd_channel
 from utils.create import profile_embed
-
 from utils.db import get_profile
+
 
 class Profile(commands.Cog):
     def __init__(self, client):
@@ -22,7 +22,7 @@ class Profile(commands.Cog):
                 user = ctx.author
             if user.bot:
                 return
-            msg = await ctx.reply("Loading...", mention_author=False)
+            msg = await ctx.send("Loading...")
             profile = await get_profile(user.id)
             embed = profile_embed(ctx.author, user, profile)
             await msg.edit(content="",embed=embed)

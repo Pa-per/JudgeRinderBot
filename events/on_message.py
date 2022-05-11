@@ -2,13 +2,13 @@ import random
 import time
 import discord
 
-from utils.db import add_exp, create_profile
+from utils.db import add_exp, create_profile, get_level
 
 
 class OnMessage(discord.ext.commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.xp_cooldown=60
+        self.xp_cooldown=0
         self.cooldown_members = {}
 
     @discord.ext.commands.Cog.listener()
@@ -25,8 +25,13 @@ class OnMessage(discord.ext.commands.Cog):
         if (time.time() - member_cooldown) >= self.xp_cooldown:
             await create_profile(message.author.id)
             message_xp = random.randint(1, 9)
-            await add_exp(message.author.id, message_xp)
+            levelled = await add_exp(message.author.id, message_xp)
             self.cooldown_members[message.author.id] = time.time()
+            if levelled:
+                channel = self.client.get_channel(973399767260471358)
+                level = await get_level(message.author.id)
+                message = f"{message.author.mention} has reached level **{level}**!"
+                await channel.send(message)
         else:
             return
 

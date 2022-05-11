@@ -4,14 +4,8 @@ import discord
 
 
 def create_embed(title=None, description: Optional[str] = None, color: Optional[str] = None, thumbnail: Optional[str] = None, image: Optional[str] = None, author: Optional[str] = None, footer: Optional[list] = None):
-    if color:
-        color = color
-    else:
-        color = discord.Color.blurple()
-    if description:
-        description = description
-    else:
-        description = ""
+    color = color or discord.Color.blurple()
+    description = description or ""
     Embed = discord.Embed(
         title=title,
         description=description,

@@ -1,3 +1,5 @@
+import datetime
+
 import discord
 from discord.ext import commands
 
@@ -54,13 +56,18 @@ class Moderation(commands.Cog):
     @commands.command(name="mute", description="Mutes a user.", usage="<user> [time]")
     @commands.guild_only()
     @commands.has_permissions(manage_roles=True)
-    async def mute(self, ctx, member: discord.Member = None, time: str = None):
+    async def mute(
+        self,
+        ctx,
+        member: discord.Member = None,
+        amount: int = None,
+    ):
         """
         mute a user in the guild
 
         Keyword Arguments:
             member -- the member to mute (default: {None})
-            time -- the amount of time to mute them for (default: {None})
+            amount -- the amount of time to mute them for (default: {None})
 
         Returns:
             Returns an error message if no member is specified.
@@ -69,6 +76,33 @@ class Moderation(commands.Cog):
             return await ctx.reply(
                 "🗙 Please specify a user to mute.", mention_author=False
             )
+        if amount is None:
+            return await ctx.reply(
+                "🗙 Please specify a time to mute them for.", mention_author=False
+            )
+        until = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(
+            minutes=amount
+        )
+
+        await member.timeout(until)
+        await ctx.reply(
+            f"Muted {member.mention} for {amount} minutes.", mention_author=False
+        )
+
+    @commands.command(name="unmute", description="Un-mute a user.", usage="<user>")
+    @commands.guild_only()
+    @commands.has_permissions(manage_roles=True)
+    async def unmute(self, ctx, member: discord.Member = None):
+        """
+        unmute a user in the guild
+
+        Keyword Arguments:
+            member -- the member to unmute (default: {None})
+        """
+        if member is None:
+            await ctx.reply("🗙 Please specify a user to un-mute.", mention_author=False)
+        await member.timeout(None)
+        await ctx.reply(f"Un-muted {member.mention}.", mention_author=False)
 
 
 async def setup(client: commands.Bot):

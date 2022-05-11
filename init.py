@@ -20,6 +20,9 @@ client = commands.Bot(command_prefix="-", intents=intents)
 async def on_ready():
     await load_cogs(client)
     await create_db()
+    await client.change_presence(
+        activity=discord.Game(name="Objection Hearsay"), status=discord.Status.dnd
+    )
     print("Bot is ready!")
 
 

@@ -1,3 +1,4 @@
 .vscode
+.ai
 __pycache__/
 config.json

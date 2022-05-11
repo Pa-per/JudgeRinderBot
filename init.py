@@ -22,4 +22,5 @@ async def on_ready():
     await create_db()
     print("Bot is ready!")
 
+
 client.run(token)

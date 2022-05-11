@@ -11,20 +11,18 @@ class Ping(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(
-        name="ping",
-        usage=""
-    )
+    @commands.command(name="ping", usage="")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def ping(self, ctx):
         """Displays Judge Rinders current Ping."""
         if is_cmd_channel(ctx):
             async with ctx.typing():
-                embed = create_embed(title="Current Ping",
-                                     description=f"`{self.client.ws.latency * 1000:.0f}`ms",
-                                     color=discord.Color.green(),
-                                     footer=[f"Requested by {ctx.author}",
-                                             f"{ctx.author.avatar.url}"])
+                embed = create_embed(
+                    title="Current Ping",
+                    description=f"`{self.client.ws.latency * 1000:.0f}`ms",
+                    color=discord.Color.green(),
+                    footer=[f"Requested by {ctx.author}", f"{ctx.author.avatar.url}"],
+                )
             await ctx.reply(embed=embed, mention_author=False)
         return
 

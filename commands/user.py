@@ -13,7 +13,7 @@ class UserInfo(commands.Cog):
         name="avatar",
         description="Get information about a user.",
         aliases=["av"],
-        usage="<user>"
+        usage="<user>",
     )
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def avatar(self, ctx, user: discord.Member = None):
@@ -25,15 +25,11 @@ class UserInfo(commands.Cog):
                 embed = create_embed(
                     description=f"{user.mention}'s Avatar",
                     image=user.avatar.url,
-                    color=discord.Color.dark_theme()
+                    color=discord.Color.dark_theme(),
                 )
             await ctx.reply(embed=embed, mention_author=False)
 
-    @commands.command(
-        name="banner",
-        description="Get a users banner",
-        usage="<user>"
-    )
+    @commands.command(name="banner", description="Get a users banner", usage="<user>")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def banner(self, ctx, user: discord.Member = None):
         """Get a users banner."""
@@ -46,11 +42,13 @@ class UserInfo(commands.Cog):
                     embed = create_embed(
                         description=f"{user.mention}'s Banner",
                         color=discord.Color.dark_theme(),
-                        image=user.banner.url
+                        image=user.banner.url,
                     )
                     await ctx.reply(embed=embed, mention_author=False)
                 else:
-                    await ctx.reply(f"{user.mention} has no banner.", mention_author=False)
+                    await ctx.reply(
+                        f"{user.mention} has no banner.", mention_author=False
+                    )
             return
 
 

@@ -9,7 +9,7 @@ from utils.db import add_exp, create_profile, get_level
 class OnMessage(discord.ext.commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.xp_cooldown=0
+        self.xp_cooldown = 0
         self.cooldown_members = {}
 
     @discord.ext.commands.Cog.listener()
@@ -34,6 +34,7 @@ class OnMessage(discord.ext.commands.Cog):
             level = await get_level(message.author.id)
             message = f"{message.author.mention} has reached level **{level}**!"
             await channel.send(message)
+
 
 async def setup(client: discord.ext.commands.Bot):
     await client.add_cog(OnMessage(client))

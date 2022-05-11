@@ -11,9 +11,7 @@ class Profile(commands.Cog):
         self.client = client
 
     @commands.command(
-        name="profile",
-        description="Get a players courthouse profile.",
-        usage="<user>"
+        name="profile", description="Get a players courthouse profile.", usage="<user>"
     )
     @commands.guild_only()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -26,7 +24,8 @@ class Profile(commands.Cog):
             msg = await ctx.send("Loading...")
             profile = await get_profile(user.id)
             embed = profile_embed(ctx.author, user, profile)
-            await msg.edit(content="",embed=embed)
+            await msg.edit(content="", embed=embed)
+
 
 async def setup(client: commands.Bot):
     await client.add_cog(Profile(client))

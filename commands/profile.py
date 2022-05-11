@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+
 from utils.checks import is_cmd_channel
 from utils.create import profile_embed
 from utils.db import get_profile

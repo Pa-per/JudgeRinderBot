@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
-from utils.checks import is_cmd_channel
 
+from utils.checks import is_cmd_channel
 from utils.create import create_embed
 
 

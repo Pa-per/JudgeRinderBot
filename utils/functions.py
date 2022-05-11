@@ -1,5 +1,6 @@
 import os
 
+
 async def load_cogs(client):
     for filename in os.listdir("commands"):
         if filename.endswith(".py"):

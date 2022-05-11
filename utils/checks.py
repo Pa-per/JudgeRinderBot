@@ -1,0 +1,9 @@
+from typing import Union
+
+
+def is_cmd_channel(ctx):
+    if ctx.channel.id != 973583752477433896:
+        if ctx.channel.id != 973399767260471358:
+            return False
+        return True
+    return True

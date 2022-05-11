@@ -22,18 +22,17 @@ class OnMessage(discord.ext.commands.Cog):
             return
         member_cooldown = self.cooldown_members.setdefault(message.author.id, 0)
 
-        if (time.time() - member_cooldown) >= self.xp_cooldown:
-            await create_profile(message.author.id)
-            message_xp = random.randint(1, 9)
-            levelled = await add_exp(message.author.id, message_xp)
-            self.cooldown_members[message.author.id] = time.time()
-            if levelled:
-                channel = self.client.get_channel(973399767260471358)
-                level = await get_level(message.author.id)
-                message = f"{message.author.mention} has reached level **{level}**!"
-                await channel.send(message)
-        else:
+        if time.time() - member_cooldown < self.xp_cooldown:
             return
+        await create_profile(message.author.id)
+        message_xp = random.randint(1, 9)
+        levelled = await add_exp(message.author.id, message_xp)
+        self.cooldown_members[message.author.id] = time.time()
+        if levelled:
+            channel = self.client.get_channel(973399767260471358)
+            level = await get_level(message.author.id)
+            message = f"{message.author.mention} has reached level **{level}**!"
+            await channel.send(message)
 
 async def setup(client: discord.ext.commands.Bot):
     await client.add_cog(OnMessage(client))

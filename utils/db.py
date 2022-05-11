@@ -25,15 +25,12 @@ async def get_profile(id):
     cursor = await db.cursor()
     await cursor.execute(f"SELECT * FROM profile WHERE id = {id}")
     result = await cursor.fetchone()
-    if result:
-        await db.close()
-        return result
-    else:
+    if not result:
         await create_profile(id)
         await cursor.execute(f"SELECT * FROM profile WHERE id = {id}")
         result = await cursor.fetchone()
-        await db.close()
-        return result
+    await db.close()
+    return result
 
 
 async def create_profile(id):
@@ -41,14 +38,12 @@ async def create_profile(id):
     cursor = await db.cursor()
     await cursor.execute(f"SELECT id FROM profile WHERE id = {id}")
     result = await cursor.fetchone()
-    if result:
-        await db.close()
-    else:
+    if not result:
         xp_to_next_level = 50 * 1.1 ** (2 - 1)
         xp_needed = xp_to_next_level - 0
         await cursor.execute(f"INSERT INTO profile VALUES ({id}, 1, 0, {int(xp_to_next_level)}, {int(xp_needed)}, 0)")
         await db.commit()
-        await db.close()
+    await db.close()
 
 
 async def check_level(id):
@@ -64,10 +59,10 @@ async def check_level(id):
             await db.commit()
             await db.close()
             return True
-        return False
     else:
         await create_profile(id)
-        return False
+
+    return False
 
 async def get_level(id):
     db = await aiosqlite.connect("databases/users.sqlite")

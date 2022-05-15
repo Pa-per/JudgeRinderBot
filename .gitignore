@@ -2,3 +2,4 @@
 .ai
 __pycache__/
 config.json
+databases/users.sqlite

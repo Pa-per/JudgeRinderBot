@@ -3,4 +3,3 @@ def is_cmd_channel(ctx):
         return True
     elif ctx.channel.id != 973583752477433896:
         return False
-    return True

@@ -1,4 +1,5 @@
-import discord
+"""Utility Commands."""
+
 from discord.ext import commands
 
 from utils.checks import is_cmd_channel
@@ -6,26 +7,51 @@ from utils.create import create_embed
 
 
 class Ping(commands.Cog):
-    """The Bot Ping command."""
+    """
+    Ping Class.
+
+    Args:
+        commands (_type_): The discord commands module.
+    """
 
     def __init__(self, client):
+        """
+        __init__ Initialise the class.
+
+        Args:
+            client (_type_): The discord client.
+        """
         self.client = client
 
-    @commands.command(name="ping", usage="")
+    @commands.command(
+        name='ping',
+    )
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def ping(self, ctx):
-        """Displays Judge Rinders current Ping."""
+        """
+        Get the bot's latency.
+
+        Args:
+            ctx (_type_): The command context to pull from.
+        """
         if is_cmd_channel(ctx):
             async with ctx.typing():
                 embed = create_embed(
-                    title="Current Ping",
-                    description=f"`{self.client.ws.latency * 1000:.0f}`ms",
-                    color=discord.Color.green(),
-                    footer=[f"Requested by {ctx.author}", f"{ctx.author.avatar.url}"],
+                    title='Current Ping',
+                    description=f'`{self.client.ws.latency * 1000:.0f}`ms',
+                    footer=[
+                        f'Requested by {ctx.author}',
+                        f'{ctx.author.avatar.url}',
+                    ],
                 )
             await ctx.reply(embed=embed, mention_author=False)
-        return
 
 
 async def setup(client: commands.Bot):
+    """
+    Initialise the Ping Cog in the bot.
+
+    Args:
+        client (commands.Bot): The discord client.
+    """
     await client.add_cog(Ping(client))

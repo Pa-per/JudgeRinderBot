@@ -11,7 +11,13 @@ from utils.functions import load_cogs
 intents = discord.Intents.all()
 
 logger = logging.getLogger('discord')
-logging.basicConfig(filename='discord.log', encoding='utf-8', format="%(asctime)s %(message)s", datefmt="[%d-%m-%Y %H:%M:%S %p]: ")
+logging.basicConfig(
+    filename='discord.log',
+    encoding='utf-8',
+    format='%(asctime)s %(levelname)s %(message)s',
+    datefmt='[%d-%m-%Y %H:%M:%S %p]:',
+    level=logging.INFO,
+)
 
 with open('config.json', encoding='utf-8') as config_file:
     config_file_data = json.load(config_file)
@@ -30,7 +36,7 @@ async def on_ready():
         activity=discord.Game(name='Objection Hearsay'),
         status=discord.Status.dnd,
     )
-    logging.error(f'{client.user} has connected to Discord!')
+    logging.info(f'{client.user} has connected to Discord!')
 
 
 client.run(token)

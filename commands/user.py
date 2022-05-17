@@ -1,4 +1,4 @@
-"""Moderation Cog for the bot."""
+"""User Cog for the bot."""
 
 import discord
 from discord.ext import commands

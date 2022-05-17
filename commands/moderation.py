@@ -72,6 +72,33 @@ class Moderation(commands.Cog):
         )
 
     @commands.command(
+        name='ban',
+        description='Ban a user from the server.',
+        usage='<user>',
+    )
+    @commands.has_permissions(ban_members=True)
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def ban(self, ctx, member: discord.Member = None, *, reason: str):
+        """
+        Ban a user from the Guild.
+
+        Args:
+            ctx (_type_): The command context to pull from.
+            reason (str): The reason for the ban.
+            member (discord.Member): The member to ban.
+        """
+        if reason is None:
+            reason = 'No reason provided.'
+        await member.ban(
+            reason=reason,
+        )
+        await ctx.reply(
+            f'Banned {member.mention}.\nReason: {reason}',
+            mention_author=False,
+            delete_after=5,
+        )
+
+    @commands.command(
         name='mute',
         description='Mutes a user.',
         usage='<user> [time]',

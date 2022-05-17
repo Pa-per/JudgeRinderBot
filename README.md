@@ -5,7 +5,7 @@
 <a href="">[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)</a>
 <a href="">[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://https://discord.com/)</a>
 <a href="">[![Visual Studio](https://badgen.net/badge/icon/visualstudio?icon=visualstudio&label)](https://visualstudio.microsoft.com)</a>
-<a href="">[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)</a>
+<a href="">[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)</a>
 
 </div>
 

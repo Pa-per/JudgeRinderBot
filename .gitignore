@@ -4,3 +4,4 @@ __pycache__/
 config.json
 databases/users.sqlite
 discord.log
+discord.py/

@@ -1,7 +1,6 @@
 """Utility Commands."""
 
 from discord.ext import commands
-
 from utils.checks import is_cmd_channel
 from utils.create import create_embed
 
@@ -39,10 +38,10 @@ class Ping(commands.Cog):
                 embed = create_embed(
                     title='Current Ping',
                     description=f'`{self.client.ws.latency * 1000:.0f}`ms',
-                    footer=[
-                        f'Requested by {ctx.author}',
-                        f'{ctx.author.avatar.url}',
-                    ],
+                )
+                embed.set_footer(
+                    text=f'Requested by {ctx.author}',
+                    icon_url=ctx.author.avatar.url,
                 )
             await ctx.reply(embed=embed, mention_author=False)
 

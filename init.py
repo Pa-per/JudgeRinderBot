@@ -4,7 +4,6 @@ import logging
 
 import discord
 from discord.ext import commands
-
 from utils.db import create_db
 from utils.functions import load_cogs
 

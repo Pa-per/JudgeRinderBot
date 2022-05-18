@@ -1,7 +1,12 @@
 """Music Cog."""
 
+
+import contextlib
+
 import discord
 from discord.ext import commands
+from utils.create import create_embed
+from utils.functions import heart_now_playing
 
 
 class Music(commands.Cog):
@@ -27,11 +32,36 @@ class Music(commands.Cog):
         if ctx.author.voice.channel:
             channel = ctx.author.voice.channel
             voice = await channel.connect()
-            await voice.play(
-                discord.FFmpegPCMAudio(
-                    'https://media-ssl.musicradio.com/HeartUK',
-                ),
-            )
+            with contextlib.suppress(TypeError):
+                await voice.play(
+                    discord.FFmpegPCMAudio(
+                        'https://media-ssl.musicradio.com/HeartUK',
+                    ),
+                )
+
+    @commands.command(
+        name='nowplaying',
+        description='Get the current song playing.',
+        aliases=['np', 'currentsong', 'current'],
+    )
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def np(self, ctx):
+        """
+        Get the current song playing.
+
+        Args:
+            ctx (_type_): The Person invoking the command.
+        """
+        radio_name, radio_image, song_img = await heart_now_playing(self.client)
+        embed = create_embed(
+            title='Now Playing',
+            author=[
+                f'{radio_name}',
+                f'{radio_image}',
+            ],
+            thumbnail=f'{song_img}',
+        )
+        await ctx.reply(embed=embed)
 
 
 async def setup(client: commands.Bot):
